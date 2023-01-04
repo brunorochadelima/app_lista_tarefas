@@ -1,8 +1,8 @@
 <?php
 class Conexao
 {
-
-    private $dsn = 'mysql:host=localhost;dbname=php_com_pdo';
+    private $host = 'localhost';
+    private $dbname = 'php_com_pdo';
     private $user = 'root';
     private $password = '';
 
@@ -10,7 +10,7 @@ class Conexao
     public function conectar()
     {
         try {
-            $conexao = new PDO("$this->$dsn", "$this->$user", "$this->$password");
+            $conexao = new PDO("mysql:host=$this->host;dbname=$this->dbname", "$this->user", "$this->password");
             return $conexao;
         } catch (PDOException $e) {
             echo  "Error: " . $e->getMessage();
