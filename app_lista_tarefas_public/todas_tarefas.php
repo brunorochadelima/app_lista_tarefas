@@ -1,9 +1,9 @@
 <?php
-    $acao = 'recuperar';
-	require 'tarefa_controller.php';
-	// echo '<pre>';
-	// print_r($tarefas);
-	// echo '</pre>';
+$acao = 'recuperar';
+require 'tarefa_controller.php';
+// echo '<pre>';
+// print_r($tarefas);
+// echo '</pre>';
 ?>
 
 <html>
@@ -44,18 +44,18 @@
 						<div class="col">
 							<h4>Todas tarefas</h4>
 							<hr />
-							<?php 
+							<?php
 							foreach ($tarefas as $key => $tarefa) { ?>
-								
+
 								<div class="row mb-3 d-flex align-items-center tarefa">
-									<div class="col-sm-9"><?= $tarefa->tarefa ?> (<?=$tarefa->status?>)</div>
+									<div class="col-sm-9" id="tarefa_<?= $tarefa->id ?>"><?= $tarefa->tarefa ?> (<?= $tarefa->status ?>)</div>
 									<div class="col-sm-3 mt-2 d-flex justify-content-between">
 										<i class="fas fa-trash-alt fa-lg text-danger"></i>
-										<i class="fas fa-edit fa-lg text-info" onclick="editar(<?= $tarefa->id ?>)"></i>
+										<i class="fas fa-edit fa-lg text-info" onclick="editar(<?= $tarefa->id ?>, '<?= $tarefa->tarefa ?>')"></i>
 										<i class="fas fa-check-square fa-lg text-success"></i>
 									</div>
 								</div>
-							
+
 							<?php }
 							?>
 						</div>
@@ -66,15 +66,43 @@
 	</div>
 
 	<script>
-       function editar(id) {
-		 //criar form
+		function editar(id, txt_tarefa) {
+			//criar form
+			const form = document.createElement('form');
+			form.method = 'POST';
+			form.action = '#';
+			form.className = 'row';
 
-		 //criar input
+			//criar input
+			const input = document.createElement('input');
+			input.type = 'text';
+			input.name = 'tarefa';
+			input.value = txt_tarefa;
+			input.className = 'col-9 form-control';
 
-		 // criar botão
+			// criar botão
+			const button = document.createElement('button');
+			button.type = 'submit';
+			button.textContent = 'Atualizar';
+			button.className = 'col-3 btn btn-primary';
 
-		 //colocal botão como filho de form
-	   }
+			//criar input hidden guardar id da tarefa 
+			const inputId = document.createElement('input');
+			inputId.type = 'hidden';
+			input.name = 'id';
+			inputId.value = id;
+
+			//coloca botão e input como filho de form
+			form.appendChild(input);
+			form.appendChild(inputId)
+			form.appendChild(button);
+
+			//seleciona a tarefa clicada
+			const tarefa = document.getElementById("tarefa_" + id)
+			tarefa.insertBefore(form, tarefa.firstChild);
+
+			// console.log(tarefa);
+		}
 	</script>
 </body>
 
